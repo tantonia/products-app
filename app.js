@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+// const port = 3000;
 const mongoose = require('mongoose');
+
+require('dotenv').config();
 
 app.use(express.json());
 
@@ -13,9 +15,16 @@ mongoose.connect(process.env.MONGODB_URI).then(
     err => {console.log("Failed to connect to mongo db", err)}
 );
 
+const cors = require('cors');
+app.use(cors({
+    origin: '*'
+    // origin: ['http://localhost:8000', 'http://www.aueb.gr']
+})) 
+
 const user = require('./routes/user.route')
 const userProduct = require('./routes/user.products.routes')
 
+app.use('/', express.static('files'));
 app.use('/api/users', user);
 app.use('/api/user-products', userProduct)
 
@@ -24,6 +33,8 @@ app.use('/api-docs',
     swaggerUI.setup(swaggerDocument.options)
 )
 
-app.listen(port, () => {
-    console.log("Server is up");
-})
+// app.listen(port, () => {
+//     console.log("Server is up");
+// })
+
+module.exports = app;

@@ -5,8 +5,8 @@ const logger = require('../logger/logger');
 exports.findAll = async(req, res) => {
     console.log('Find all users');
     try {
-        const response = await User.find();
-        res.status(200).json({data: response});
+        const result = await User.find();
+        res.status(200).json({data: result});
         logger.debug("Success in reading all users")
         logger.info("Success in reading all users")
     } catch (err) {
